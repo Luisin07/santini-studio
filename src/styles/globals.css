@@ -1,0 +1,79 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------
+   Design tokens — direção: editorial de luxo
+   Fundo espresso quente, marfim, acento champanhe.
+   Tudo deriva destas variáveis: mudar a marca = mudar aqui.
+--------------------------------------------- */
+:root {
+  --color-ink: #141210; /* fundo principal (espresso, não preto azulado) */
+  --color-surface: #1d1a16; /* cartões e superfícies elevadas */
+  --color-ivory: #ede7dd; /* texto principal */
+  --color-muted: #9a9184; /* texto secundário */
+  --color-accent: #c3a97d;  /* champanhe/latão — usar com parcimônia */
+  --color-accent-strong: #d8bf90; /* hover do acento */
+  --color-line: rgba(237, 231, 221, 0.12); /* hairlines */
+
+  --font-display: var(--font-fraunces);
+  --font-body: var(--font-instrument);
+}
+
+/* Variante clara (stub — ativável depois via data-theme) */
+[data-theme="light"] {
+  --color-ink: #f2ede4;
+  --color-surface: #ffffff;
+  --color-ivory: #1d1a16;
+  --color-muted: #6d6558;
+  --color-line: rgba(29, 26, 22, 0.14);
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-surface: var(--color-surface);
+  --color-ivory: var(--color-ivory);
+  --color-muted: var(--color-muted);
+  --color-accent: var(--color-accent);
+  --color-accent-strong: var(--color-accent-strong);
+  --color-line: var(--color-line);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+/* Base */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Acessibilidade: foco visível sempre */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Acessibilidade: quem pede menos movimento, recebe menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
