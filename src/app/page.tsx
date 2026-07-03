@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/sections/site-header";
 import { Hero } from "@/components/sections/hero";
+import { Proof } from "@/components/sections/proof";
 
 export default function HomePage() {
   return (
@@ -7,7 +8,8 @@ export default function HomePage() {
       <SiteHeader />
       <main>
         <Hero />
-        {/* Próximos blocos da Etapa 3: prova de qualidade, serviços, contato */}
+        <Proof />
+        {/* Próximos blocos: processo/serviços, contato */}
       </main>
     </>
   );
