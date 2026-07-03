@@ -4,7 +4,7 @@ import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://example.com"), // TODO: trocar pela URL da Vercel no deploy
+  metadataBase: new URL("https://luissantini-studio.vercel.app"), // TODO: trocar pela URL da Vercel no deploy
   title: {
     default: "Luis Santini Studio — Experiências digitais para o mercado imobiliário",
     template: "%s — Luis Santini Studio",
