@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
 import { fraunces, instrument } from "@/lib/fonts";
+import { site } from "@/lib/site";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://luissantini-studio.vercel.app"), // TODO: trocar pela URL da Vercel no deploy
+  metadataBase: new URL(site.url),
   title: {
-    default: "Luis Santini Studio — Experiências digitais para o mercado imobiliário",
-    template: "%s — Luis Santini Studio",
+    default: site.title,
+    template: `%s — ${site.name}`,
   },
-  description:
-    "Hotsites de lançamento e páginas de alto impacto para incorporadoras, construtoras e imóveis de alto padrão.",
+  description: site.description,
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    siteName: "Luis Santini Studio",
+    siteName: site.name,
   },
 };
 
