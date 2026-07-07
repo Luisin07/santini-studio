@@ -4,29 +4,37 @@ import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 
 /**
- * Scroll suave global via Lenis.
- * Desativa-se sozinho quando o usuário prefere movimento reduzido —
- * acessibilidade não é opcional em projeto profissional.
+ * Scroll suave via Lenis — agora inicializado em requestIdleCallback:
+ * a primeira pintura e a hidratação acontecem antes; o luxo do scroll
+ * chega milissegundos depois, quando a thread está ociosa.
+ * Ninguém percebe a espera; o Lighthouse percebe a folga.
  */
 export function SmoothScroll({ children }: { children: ReactNode }) {
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (prefersReduced) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const lenis = new Lenis({ lerp: 0.12 });
-
+    let lenis: Lenis | undefined;
     let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
+
+    const start = () => {
+      lenis = new Lenis({ lerp: 0.12 });
+      const raf = (time: number) => {
+        lenis!.raf(time);
+        rafId = requestAnimationFrame(raf);
+      };
       rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    };
+
+    const idleId =
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback(start, { timeout: 1500 })
+        : window.setTimeout(start, 300);
 
     return () => {
+      if (typeof window.cancelIdleCallback === "function") window.cancelIdleCallback(idleId);
+      else window.clearTimeout(idleId);
       cancelAnimationFrame(rafId);
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, []);
 

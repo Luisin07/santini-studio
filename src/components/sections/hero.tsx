@@ -22,7 +22,7 @@ export function Hero() {
             <Eyebrow>Estúdio digital — mercado imobiliário</Eyebrow>
           </Reveal>
 
-          <Reveal delay={0.12}>
+          <Reveal delay={0.12} lcp>
             <Heading level={1} className="mt-5">
               Lançamentos que vendem antes do plantão abrir.
             </Heading>

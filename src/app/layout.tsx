@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { fraunces, instrument } from "@/lib/fonts";
 import { site } from "@/lib/site";
-import { SmoothScroll } from "@/components/providers/smooth-scroll";
+import { AppProviders } from "@/components/providers/app-providers";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${fraunces.variable} ${instrument.variable}`}>
       <body>
-        <SmoothScroll>{children}</SmoothScroll>
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

@@ -1,29 +1,31 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
-  /** Atraso em segundos — permite orquestrar sequências entre elementos. */
   delay?: number;
   className?: string;
+  /**
+   * Modo LCP-safe: para o maior elemento da tela (ex.: H1 do hero).
+   * Anima só a posição, nunca a opacidade — elemento com opacity: 0
+   * "não existe" para o Largest Contentful Paint, e esconder o
+   * protagonista do juiz custava segundos na métrica.
+   */
+  lcp?: boolean;
 };
 
-/**
- * Reveal padrão do site: sobe suave + fade, uma única vez, ao entrar na viewport.
- * Centralizado aqui para que TODA entrada do site tenha a mesma física —
- * consistência de movimento é o que faz um site parecer dirigido, não montado.
- * Com prefers-reduced-motion, vira um fade quase instantâneo.
- */
-export function Reveal({ children, delay = 0, className }: RevealProps) {
+export function Reveal({ children, delay = 0, className, lcp = false }: RevealProps) {
   const reduced = useReducedMotion();
 
   return (
-    <motion.div
+    <m.div
       className={className}
-      initial={{ opacity: 0, y: reduced ? 0 : 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={
+        reduced ? { opacity: lcp ? 1 : 0 } : lcp ? { y: 28 } : { opacity: 0, y: 28 }
+      }
+      whileInView={lcp ? { y: 0 } : { opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={
         reduced
@@ -32,6 +34,6 @@ export function Reveal({ children, delay = 0, className }: RevealProps) {
       }
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
